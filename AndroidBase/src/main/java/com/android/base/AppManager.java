@@ -11,9 +11,10 @@ import android.content.Context;
 public class AppManager {
 
     private static Stack<Activity> activityStack;
-    private static AppManager mInstance;
+    private volatile static AppManager mInstance;
 
-    private AppManager() {}
+    private AppManager() {
+    }
 
     /**
      * 单一实例

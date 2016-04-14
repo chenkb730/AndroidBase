@@ -11,8 +11,8 @@ import java.util.ArrayList;
  *         2013-12-11下午3:31:03
  */
 public class Averager {
-    private static final String            TAG     = "Averager";
-    private              ArrayList<Number> numList = new ArrayList<Number>();
+    private static final String TAG = "Averager";
+    private ArrayList<Number> numList = new ArrayList<Number>();
 
     /**
      * 添加一个数字

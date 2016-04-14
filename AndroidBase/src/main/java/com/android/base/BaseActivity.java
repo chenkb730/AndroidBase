@@ -9,6 +9,7 @@ import android.os.Message;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+
 import com.android.base.common.Log;
 import com.android.base.lifecycle.ActivityLifecycleCallbacksCompat;
 import com.android.base.netstate.NetWorkUtil;
@@ -155,7 +156,7 @@ public abstract class BaseActivity extends AutoLayoutActivity implements Activit
         WeakReference<BaseActivity> mReference = null;
 
         MyHandler(BaseActivity activity) {
-            this.mReference = new WeakReference<BaseActivity>(activity);
+            this.mReference = new WeakReference<>(activity);
         }
 
         @Override
@@ -205,13 +206,13 @@ public abstract class BaseActivity extends AutoLayoutActivity implements Activit
     }
 
     public CommonBlockManager getCommonBlockManager() {
-        if(mCommonBlockManager == null) {
+        if (mCommonBlockManager == null) {
             mCommonBlockManager = new CommonBlockManager(this);
         }
         return mCommonBlockManager;
     }
 
-    public Handler getHandler(){
+    public Handler getHandler() {
         return mHandler;
     }
 
@@ -228,4 +229,39 @@ public abstract class BaseActivity extends AutoLayoutActivity implements Activit
 
 
     protected abstract int getMainContentViewId();
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+
+    }
+
+    @Override
+    public void onActivityRestoreInstanceState(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
+
+    }
 }
