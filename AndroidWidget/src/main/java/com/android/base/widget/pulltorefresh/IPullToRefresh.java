@@ -59,7 +59,7 @@ public interface IPullToRefresh<T extends View> {
 	/**
 	 * Returns a proxy object which allows you to call methods on all of the
 	 * LoadingLayouts (the Views which show when Pulling/Refreshing).
-	 * <p />
+	 *
 	 * You should not keep the result of this method any longer than you need
 	 * it.
 	 * 
@@ -73,7 +73,7 @@ public interface IPullToRefresh<T extends View> {
 	 * LoadingLayouts (the Views which show when Pulling/Refreshing). The actual
 	 * LoadingLayout(s) which will be affected, are chosen by the parameters you
 	 * give.
-	 * <p />
+	 *
 	 * You should not keep the result of this method any longer than you need
 	 * it.
 	 * 
@@ -195,6 +195,29 @@ public interface IPullToRefresh<T extends View> {
 	public void setOnRefreshListener(OnRefreshListener2<T> listener);
 
 	/**
+	 * Set a header LoadingLayout for the Widget
+	 *
+	 * @param headerLayout
+	 */
+	public void setHeaderLayout(LoadingLayoutBase headerLayout);
+
+	/**
+	 * Set a footer LoadingLayout for the Widget
+	 *
+	 * @param footerLayout
+	 */
+	public void setFooterLayout(LoadingLayoutBase footerLayout);
+
+	/**
+	 * Set a second footer LoadingLayout for the Widget，it used to the widget
+	 * can add footer just like ListView or
+	 * WrapRecyclerView(https://github.com/xuehuayous/WrapRecyclerView)
+	 *
+	 * @param view
+	 */
+	public void setSecondFooterLayout(View view);
+
+	/**
 	 * Sets whether Overscroll support is enabled. This is different to
 	 * Android's standard Overscroll support (the edge-glow). This setting only
 	 * takes effect when running on device with Android v2.3 or greater.
@@ -242,5 +265,17 @@ public interface IPullToRefresh<T extends View> {
 	 * @param showView
 	 */
 	public void setShowViewWhileRefreshing(boolean showView);
+
+	/**
+	 * set weather has friction when pull down
+	 * @param hasPullDownFriction
+     */
+	public void setHasPullDownFriction(boolean hasPullDownFriction);
+
+	/**
+	 * set weather has friction when pull up
+	 * @param hasPullUpFriction
+	 */
+	public void setHasPullUpFriction(boolean hasPullUpFriction);
 
 }

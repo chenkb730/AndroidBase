@@ -155,10 +155,10 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 
 	/**
 	 * Sets the Empty View to be used by the Adapter View.
-	 * <p/>
+	 *
 	 * We need it handle it ourselves so that we can Pull-to-Refresh when the
 	 * Empty View is shown.
-	 * <p/>
+	 *
 	 * Please note, you do <strong>not</strong> usually need to call this method
 	 * yourself. Calling setEmptyView on the AdapterView will automatically call
 	 * this method and set everything up. This includes when the Android
@@ -389,12 +389,9 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 			 * now we'll just add one to account for it and rely on the inner
 			 * condition which checks getTop().
 			 */
-			//if (mRefreshableView.getFirstVisiblePosition() <= 1) {
-			if ((null == mIndicatorIvTop && mRefreshableView.getFirstVisiblePosition() == 0) ||
-										(null != mIndicatorIvTop && mRefreshableView.getFirstVisiblePosition() <= 1)) {
+			if (mRefreshableView.getFirstVisiblePosition() <= 1) {
 				final View firstVisibleChild = mRefreshableView.getChildAt(0);
-				//if (firstVisibleChild != null) {
-				if (firstVisibleChild != null && firstVisibleChild != mIndicatorIvTop) {
+				if (firstVisibleChild != null) {
 					return firstVisibleChild.getTop() >= mRefreshableView.getTop();
 				}
 			}
@@ -427,13 +424,10 @@ public abstract class PullToRefreshAdapterViewBase<T extends AbsListView> extend
 			 * account for it and rely on the inner condition which checks
 			 * getBottom().
 			 */
-			//if (lastVisiblePosition >= lastItemPosition - 1) {
-			if ((null == mIndicatorIvBottom && lastVisiblePosition == lastItemPosition) ||
-										(null != mIndicatorIvBottom && lastVisiblePosition >= lastItemPosition - 1)) {
+			if (lastVisiblePosition >= lastItemPosition - 1) {
 				final int childIndex = lastVisiblePosition - mRefreshableView.getFirstVisiblePosition();
 				final View lastVisibleChild = mRefreshableView.getChildAt(childIndex);
-				//if (lastVisibleChild != null) {
-				if (lastVisibleChild != null && lastVisibleChild != mIndicatorIvBottom) {
+				if (lastVisibleChild != null) {
 					return lastVisibleChild.getBottom() <= mRefreshableView.getBottom();
 				}
 			}

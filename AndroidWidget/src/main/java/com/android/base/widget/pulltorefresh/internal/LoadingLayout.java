@@ -27,7 +27,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
@@ -35,13 +34,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.base.widget.R;
-import com.android.base.widget.pulltorefresh.ILoadingLayout;
+import com.android.base.widget.pulltorefresh.LoadingLayoutBase;
 import com.android.base.widget.pulltorefresh.PullToRefreshBase.Mode;
 import com.android.base.widget.pulltorefresh.PullToRefreshBase.Orientation;
+import com.android.base.widget.R;
 
 @SuppressLint("ViewConstructor")
-public abstract class LoadingLayout extends FrameLayout implements ILoadingLayout {
+abstract class LoadingLayout extends LoadingLayoutBase {
 
 	static final String LOG_TAG = "PullToRefresh-LoadingLayout";
 
@@ -85,7 +84,7 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 		mSubHeaderText = (TextView) mInnerLayout.findViewById(R.id.pull_to_refresh_sub_text);
 		mHeaderImage = (ImageView) mInnerLayout.findViewById(R.id.pull_to_refresh_image);
 
-		LayoutParams lp = (LayoutParams) mInnerLayout.getLayoutParams();
+		FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mInnerLayout.getLayoutParams();
 
 		switch (mode) {
 			case PULL_FROM_END:
@@ -180,54 +179,27 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 		reset();
 	}
 
-	public final void setHeight(int height) {
-		ViewGroup.LayoutParams lp = (ViewGroup.LayoutParams) getLayoutParams();
-		lp.height = height;
-		requestLayout();
-	}
 
-	public final void setWidth(int width) {
-		ViewGroup.LayoutParams lp = (ViewGroup.LayoutParams) getLayoutParams();
-		lp.width = width;
-		requestLayout();
-	}
 
+	@Override
 	public final int getContentSize() {
 		switch (mScrollDirection) {
-			/*case HORIZONTAL:
+			case HORIZONTAL:
 				return mInnerLayout.getWidth();
 			case VERTICAL:
 			default:
-				return mInnerLayout.getHeight();*/
-			case HORIZONTAL:
-				return getMeasureWidth(mInnerLayout);
-			case VERTICAL:
-			default:
-				return getMeasureHight(mInnerLayout);
+				return mInnerLayout.getHeight();
 		}
 	}
 
-	public final void hideAllViews() {
-		if (View.VISIBLE == mHeaderText.getVisibility()) {
-			mHeaderText.setVisibility(View.INVISIBLE);
-		}
-		if (View.VISIBLE == mHeaderProgress.getVisibility()) {
-			mHeaderProgress.setVisibility(View.INVISIBLE);
-		}
-		if (View.VISIBLE == mHeaderImage.getVisibility()) {
-			mHeaderImage.setVisibility(View.INVISIBLE);
-		}
-		if (View.VISIBLE == mSubHeaderText.getVisibility()) {
-			mSubHeaderText.setVisibility(View.INVISIBLE);
-		}
-	}
-
+	@Override
 	public final void onPull(float scaleOfLayout) {
 		if (!mUseIntrinsicAnimation) {
 			onPullImpl(scaleOfLayout);
 		}
 	}
 
+	@Override
 	public final void pullToRefresh() {
 		if (null != mHeaderText) {
 			mHeaderText.setText(mPullLabel);
@@ -237,6 +209,7 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 		pullToRefreshImpl();
 	}
 
+	@Override
 	public final void refreshing() {
 		if (null != mHeaderText) {
 			mHeaderText.setText(mRefreshingLabel);
@@ -254,6 +227,7 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 		}
 	}
 
+	@Override
 	public final void releaseToRefresh() {
 		if (null != mHeaderText) {
 			mHeaderText.setText(mReleaseLabel);
@@ -263,6 +237,7 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 		releaseToRefreshImpl();
 	}
 
+	@Override
 	public final void reset() {
 		if (null != mHeaderText) {
 			mHeaderText.setText(mPullLabel);
@@ -314,21 +289,6 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 	@Override
 	public void setTextTypeface(Typeface tf) {
 		mHeaderText.setTypeface(tf);
-	}
-
-	public final void showInvisibleViews() {
-		if (View.INVISIBLE == mHeaderText.getVisibility()) {
-			mHeaderText.setVisibility(View.VISIBLE);
-		}
-		if (View.INVISIBLE == mHeaderProgress.getVisibility()) {
-			mHeaderProgress.setVisibility(View.VISIBLE);
-		}
-		if (View.INVISIBLE == mHeaderImage.getVisibility()) {
-			mHeaderImage.setVisibility(View.VISIBLE);
-		}
-		if (View.INVISIBLE == mSubHeaderText.getVisibility()) {
-			mSubHeaderText.setVisibility(View.VISIBLE);
-		}
 	}
 
 	/**
@@ -393,48 +353,6 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
 		if (null != mSubHeaderText) {
 			mSubHeaderText.setTextColor(color);
 		}
-	}
-
-	/**
-	 * 获取某个控件的宽高 调用方法后用View.getMeasuredWidth(),View.getMeasuredHeight() 来获取宽高
-	 *
-	 * @param child
-	 */
-	public static void measureView(View child) {
-		ViewGroup.LayoutParams p = child.getLayoutParams();
-		if (p == null) {
-			p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
-					ViewGroup.LayoutParams.WRAP_CONTENT);
-		}
-		int childWidthSpec = ViewGroup.getChildMeasureSpec(0, 0 + 0, p.width);
-		int lpHeight = p.height;
-		int childHeightSpec;
-		if (lpHeight > 0) {
-			childHeightSpec = MeasureSpec.makeMeasureSpec(lpHeight,
-					MeasureSpec.EXACTLY);
-		} else {
-			childHeightSpec = MeasureSpec.makeMeasureSpec(0,
-					MeasureSpec.UNSPECIFIED);
-		}
-		child.measure(childWidthSpec, childHeightSpec);
-	}
-
-	private int getMeasureHight(View child) {
-		int result = child.getHeight();
-		if (result == 0) {
-			measureView(child);
-			result = child.getMeasuredHeight();
-		}
-		return result;
-	}
-
-	private int getMeasureWidth(View child) {
-		int result = child.getWidth();
-		if (result == 0) {
-			measureView(child);
-			result = child.getMeasuredWidth();
-		}
-		return result;
 	}
 
 }

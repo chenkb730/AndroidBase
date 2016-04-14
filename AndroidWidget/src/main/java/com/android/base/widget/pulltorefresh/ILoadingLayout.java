@@ -51,6 +51,7 @@ public interface ILoadingLayout {
 	 * displayed. Please see
 	 * {@link android.widget.TextView#setTypeface(Typeface)
 	 * TextView#setTypeface(Typeface)}.
+	 * @param tf
 	 */
 	public void setTextTypeface(Typeface tf);
 
