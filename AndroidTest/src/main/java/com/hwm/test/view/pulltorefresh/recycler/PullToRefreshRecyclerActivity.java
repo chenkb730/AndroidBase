@@ -2,14 +2,15 @@ package com.hwm.test.view.pulltorefresh.recycler;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.android.base.BaseActivity;
 import com.android.base.widget.pulltorefresh.PullToRefreshBase;
-import com.android.base.widget.pulltorefresh.PullToRefreshRecyclerView;
+import com.android.base.widget.pulltorefresh.extras.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.android.base.widget.pulltorefresh.extras.recyclerview.PullToRefreshRecyclerView;
 import com.hwm.test.R;
+import com.hwm.test.view.pulltorefresh.JingDongHeaderLayout;
 import com.hwm.test.view.pulltorefresh.recycler.adapter.DataAdapter;
 
 import java.util.ArrayList;
@@ -26,6 +27,9 @@ public class PullToRefreshRecyclerActivity extends BaseActivity {
     PullToRefreshRecyclerView mRecyclerView;
     private List<String> mData = new ArrayList<>();
     DataAdapter mDataAdapter;
+    HeaderAndFooterRecyclerViewAdapter adapter;
+
+    RecyclerView recyclerView;
 
     @Override
     protected int getMainContentViewId() {
@@ -51,11 +55,20 @@ public class PullToRefreshRecyclerActivity extends BaseActivity {
     }
 
     private void setRecyclerView() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mDataAdapter.setDataAndAdapter(mData);
-        mRecyclerView.setAdapter(mDataAdapter.mQuickRcvAdapter);
+        //设置刷新头部
+        mRecyclerView.setHeaderLayout(new JingDongHeaderLayout(this, PullToRefreshBase.Mode.PULL_FROM_START));
         mRecyclerView.setMode(PullToRefreshBase.Mode.BOTH);
+        recyclerView = mRecyclerView.getRefreshableView();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
+
+        mDataAdapter.setDataAndAdapter(mData);
+        adapter = new HeaderAndFooterRecyclerViewAdapter(mDataAdapter.mQuickRcvAdapter);
+        recyclerView.setAdapter(adapter);
+
+
         mRecyclerView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<RecyclerView>() {
             @Override
             public void onPullDownToRefresh(final PullToRefreshBase<RecyclerView> refreshView) {
@@ -73,50 +86,17 @@ public class PullToRefreshRecyclerActivity extends BaseActivity {
                     @Override
                     public void run() {
                         int count = mDataAdapter.getAdapter().getItemCount();
-                        for (int i = count; i < count+15; i++) {
+                        for (int i = count; i < count + 15; i++) {
                             mData.add("这是一条RecyclerView的数据" + (i + 1));
                         }
-                        mDataAdapter.getAdapter().notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
                         refreshView.onRefreshComplete();
                         refreshView.getRefreshableView().smoothScrollToPosition(count + 1);
                     }
                 }, 500);
             }
         });
-    }
-
-    @Override
-    public void onActivityStarted(Activity activity) {
 
     }
 
-    @Override
-    public void onActivityResumed(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityStopped(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-
-    }
-
-    @Override
-    public void onActivityRestoreInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-
-    }
 }

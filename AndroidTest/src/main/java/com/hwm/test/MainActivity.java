@@ -9,7 +9,6 @@ import com.hwm.test.download.bizs.DLCons;
 import com.hwm.test.download.bizs.DLInfo;
 import com.hwm.test.download.bizs.DLManager;
 import com.hwm.test.download.db.dao.DLInfoDao;
-import com.hwm.test.download.test.GameListActivity;
 import com.hwm.test.net.TestHttpActivity;
 import com.hwm.test.leakcanary.LeakcanaryActivity;
 import com.hwm.test.permission.TestPermissionActivity;
@@ -59,7 +58,6 @@ public class MainActivity extends TestBaseActivity {
                 gotoActivity(FragmentTabHostActivity.class, false);
                 break;
             case 2:
-                gotoActivity(GameListActivity.class, false);
                 break;
             case 3:
                 gotoActivity(RecyclerViewTestActivity.class, false);
@@ -98,21 +96,21 @@ public class MainActivity extends TestBaseActivity {
 
     }
 
-    public void stopDownloadingTask(){
+    public void stopDownloadingTask() {
         DLManager dlManager = DLManager.getInstance(mApplicationContext);
         DLInfoDao dlInfoDao = dlManager.getDLInfoDao();
         List<DLInfo> infos = null;
-        if(dlInfoDao!=null){
+        if (dlInfoDao != null) {
             try {
                 infos = dlInfoDao.query(new String[]{DLCons.DBCons.TB_TASK_STATE}, new Integer[]{DLCons.DLState.DOWNLOADING});
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            if(infos!=null && infos.size()!=0){
-                LogUtils.e("要暂停下载的任务数："+ infos.size());
-                for(DLInfo info : infos){
+            if (infos != null && infos.size() != 0) {
+                LogUtils.e("要暂停下载的任务数：" + infos.size());
+                for (DLInfo info : infos) {
                     try {
-                        LogUtils.e("要暂停的任务："+ info.appName);
+                        LogUtils.e("要暂停的任务：" + info.appName);
                         info.state = DLCons.DLState.PAUSE;
                         dlInfoDao.update(info);
                     } catch (SQLException e) {

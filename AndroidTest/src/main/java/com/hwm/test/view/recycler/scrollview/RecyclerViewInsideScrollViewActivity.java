@@ -7,8 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.android.base.BaseActivity;
-import com.android.base.widget.recyclerview.HeaderAndFooterRecyclerViewAdapter;
-import com.android.base.widget.recyclerview.RecyclerViewUtils;
+import com.android.base.widget.pulltorefresh.extras.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.android.base.widget.pulltorefresh.extras.recyclerview.RecyclerViewUtils;
 import com.hwm.test.R;
 import com.hwm.test.view.pulltorefresh.recycler.adapter.DataAdapter;
 import com.hwm.test.view.pulltorefresh.recycler.widget.HeaderBanner;

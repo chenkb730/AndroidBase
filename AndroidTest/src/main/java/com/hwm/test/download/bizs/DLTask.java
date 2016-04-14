@@ -5,11 +5,13 @@ import android.content.Context;
 import android.os.Process;
 import android.text.TextUtils;
 
+import com.android.base.rxandroid.RxBus;
 import com.hwm.test.download.db.dao.DLInfoDao;
 import com.hwm.test.download.db.dao.DLThreadInfoDao;
 import com.apkfuns.logutils.LogUtils;
 
-import org.simple.eventbus.EventBus;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -56,7 +58,6 @@ class DLTask implements Runnable, IDLThreadListener {
         this.mDLInfoDao = infoDao;
         this.mDLThreadInfoDao = threadInfoDao;
         //if (!info.isResume) DLDBManager.getInstance(context).insertTaskInfo(info);
-        EventBus.getDefault().register(this);
         if (!info.isResume) {
             try {
                 mDLInfoDao.save(info);
@@ -74,8 +75,8 @@ class DLTask implements Runnable, IDLThreadListener {
         info.currentBytes = totalProgress;
 
         //计算下载速度
-        long totalTime = (System.currentTimeMillis() - mPreviousTime)/1000;
-        if ( totalTime == 0 ) {
+        long totalTime = (System.currentTimeMillis() - mPreviousTime) / 1000;
+        if (totalTime == 0) {
             totalTime += 1;
         }
         long networkSpeed = totalProgress / totalTime;
@@ -90,7 +91,7 @@ class DLTask implements Runnable, IDLThreadListener {
                 e.printStackTrace();
             }
             if (info.hasListener) info.listener.onProgress(info);
-            EventBus.getDefault().post(info, "onProgress");
+            RxBus.getDefault().post(info);
             lastTime = currentTime;
         }
     }
@@ -117,13 +118,12 @@ class DLTask implements Runnable, IDLThreadListener {
             }
             count = 0;
             if (info.hasListener) info.listener.onStop(info);
-            EventBus.getDefault().post(info, "onStop");
         }
     }
 
     @Override
     public synchronized void onFinish(DLThreadInfo threadInfo) {
-        LogUtils.e("已经完成："+info.appName+"  进度："+info.progress+"  "+threadInfo);
+        LogUtils.e("已经完成：" + info.appName + "  进度：" + info.progress + "  " + threadInfo);
         if (null == threadInfo) {
             if (info.hasListener) {
                 try {
@@ -135,8 +135,6 @@ class DLTask implements Runnable, IDLThreadListener {
                 info.listener.onProgress(info);
                 info.listener.onFinish(info);
             }
-            EventBus.getDefault().post(info, "onProgress");
-            EventBus.getDefault().post(info, "onFinish");
             return;
         }
         info.removeDLThread(threadInfo);
@@ -157,13 +155,11 @@ class DLTask implements Runnable, IDLThreadListener {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            LogUtils.e("info.hasListener="+info.hasListener);
+            LogUtils.e("info.hasListener=" + info.hasListener);
             if (info.hasListener) {
                 info.listener.onProgress(info);
                 info.listener.onFinish(info);
             }
-            EventBus.getDefault().post(info, "onProgress");
-            EventBus.getDefault().post(info, "onFinish");
             DLManager.getInstance(context).addDLTask();
         }
     }
@@ -202,7 +198,6 @@ class DLTask implements Runnable, IDLThreadListener {
                     default:
                         if (info.hasListener)
                             info.listener.onError(code, conn.getResponseMessage(), info);
-                        EventBus.getDefault().post(info, "onError");
                         DLManager.getInstance(context).removeDLTask(info.baseUrl);
                         info.state = DLState.FAIL;
                         try {
@@ -214,7 +209,6 @@ class DLTask implements Runnable, IDLThreadListener {
                 }
             } catch (Exception e) {
                 if (info.hasListener) info.listener.onError(ERROR_OPEN_CONNECT, e.toString(), info);
-                EventBus.getDefault().post(info, "onError");
                 DLManager.getInstance(context).removeDLTask(info.baseUrl);
                 info.state = DLState.FAIL;
                 try {
@@ -234,7 +228,7 @@ class DLTask implements Runnable, IDLThreadListener {
         readResponseHeaders(conn);
         //DLDBManager.getInstance(context).updateTaskInfo(info);
         try {
-            LogUtils.e("保存数据库前安装包的大小："+info.totalBytes);
+            LogUtils.e("保存数据库前安装包的大小：" + info.totalBytes);
             mDLInfoDao.update(info);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -247,7 +241,6 @@ class DLTask implements Runnable, IDLThreadListener {
         //    return;
         //}
         if (info.hasListener) info.listener.onStart(info);
-        EventBus.getDefault().post(info, "onStart");
         switch (code) {
             case HTTP_OK:
                 mPreviousTime = System.currentTimeMillis();
@@ -330,7 +323,7 @@ class DLTask implements Runnable, IDLThreadListener {
         if (TextUtils.isEmpty(transferEncoding)) {
             try {
                 info.totalBytes = Integer.parseInt(conn.getHeaderField("Content-Length"));
-                LogUtils.e("安装包的大小："+info.totalBytes);
+                LogUtils.e("安装包的大小：" + info.totalBytes);
             } catch (NumberFormatException e) {
                 info.totalBytes = -1;
             }

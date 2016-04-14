@@ -11,10 +11,10 @@ import android.view.View;
 import com.android.base.BaseActivity;
 import com.android.base.common.assist.Toastor;
 import com.android.base.widget.pulltorefresh.PullToRefreshBase;
-import com.android.base.widget.pulltorefresh.PullToRefreshRecyclerView;
+import com.android.base.widget.pulltorefresh.extras.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.android.base.widget.pulltorefresh.extras.recyclerview.PullToRefreshRecyclerView;
+import com.android.base.widget.pulltorefresh.extras.recyclerview.RecyclerViewUtils;
 import com.android.base.widget.recyclerview.OnRcvScrollListener;
-import com.android.base.widget.recyclerview.HeaderAndFooterRecyclerViewAdapter;
-import com.android.base.widget.recyclerview.RecyclerViewUtils;
 import com.hwm.test.R;
 import com.hwm.test.view.pulltorefresh.recycler.adapter.DataAdapter;
 import com.hwm.test.view.pulltorefresh.recycler.widget.HeaderBanner;
@@ -39,7 +39,9 @@ public class LoadMoreRecyclerActivity extends BaseActivity {
     HeaderBanner mHeaderBanner;
     HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
 
-    /** 是否加载数据标志 **/
+    /**
+     * 是否加载数据标志
+     **/
     private boolean isLoadingData = false;
 
 
@@ -145,7 +147,7 @@ public class LoadMoreRecyclerActivity extends BaseActivity {
                     @Override
                     public void run() {
                         int count = mDataAdapter.getAdapter().getItemCount();
-                        for (int i = count; i < count+15; i++) {
+                        for (int i = count; i < count + 15; i++) {
                             mData.add("这是一条RecyclerView的数据" + (i + 1));
                         }
                         mDataAdapter.getAdapter().notifyDataSetChanged();

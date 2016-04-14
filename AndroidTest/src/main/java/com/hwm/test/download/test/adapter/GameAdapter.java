@@ -25,8 +25,6 @@ import com.hwm.test.download.test.util.Utils;
 import com.apkfuns.logutils.LogUtils;
 import com.bumptech.glide.Glide;
 
-import org.simple.eventbus.EventBus;
-import org.simple.eventbus.Subscriber;
 
 import java.io.File;
 import java.sql.SQLException;
@@ -38,24 +36,23 @@ import static com.hwm.test.download.bizs.DLCons.DLState;
 /**
  * Created by Administrator on 2015/12/1 0001.
  */
-public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnItemClickListener{
+public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnItemClickListener {
 
 
     QuickRcvAdapter mQuickRcvAdapter;
-    ArrayMap<Integer,Boolean> mIsExpend;
+    ArrayMap<Integer, Boolean> mIsExpend;
     String saveDir = Environment.getExternalStorageDirectory() + "/AndroidTest/download";
     DLManager mDLManager;
     RecyclerView mRecyclerView;
 
     @Override
     protected void onCreated() {
-        EventBus.getDefault().register(this);
         mIsExpend = new ArrayMap<>();
         mDLManager = DLManager.getInstance(mActivity.getApplicationContext());
         MyApplication.getInstance().setAllDLTasks(mDLManager.getAllTasks());
     }
 
-    public void setAdapter(final RecyclerView recyclerView, List<GameInfo.DataEntity> data){
+    public void setAdapter(final RecyclerView recyclerView, List<GameInfo.DataEntity> data) {
 
         mRecyclerView = recyclerView;
 
@@ -94,9 +91,9 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
                 //mBtnOperate.setTag(item.getShorturl());
 
                 DLInfo info = null;
-                if(getAllDLTasks()!=null && !getAllDLTasks().isEmpty()){
+                if (getAllDLTasks() != null && !getAllDLTasks().isEmpty()) {
                     info = getAllDLTasks().get(item.getShorturl());
-                    if(info!=null){
+                    if (info != null) {
                         mNumberProgressBar.setProgress(info.progress);
                         mNumberProgressBar.setMax(info.totalBytes);
 
@@ -106,55 +103,55 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
                             mTvDownloadScale.setText(downladScale);
                         }
 
-                        if(info.networkSpeed > 0){
+                        if (info.networkSpeed > 0) {
                             mTvDownloadSpeed.setText(FileUtils.generateFileSize(info.networkSpeed));
                         }
 
-                        if(info.state == DLState.DOWNLOAD){
+                        if (info.state == DLState.DOWNLOAD) {
                             mBtnOperate.setText("下载");
                             mNumberProgressBar.setVisibility(View.GONE);
                             mTvDownloadSpeed.setVisibility(View.GONE);
                             mTvDownloadScale.setVisibility(View.GONE);
-                        }else if(info.state == DLState.DOWNLOADING){
+                        } else if (info.state == DLState.DOWNLOADING) {
                             mBtnOperate.setText("暂停");
                             mNumberProgressBar.setProgress(info.progress);
-                            LogUtils.e("下载中 当前进度="+info.progress);
+                            LogUtils.e("下载中 当前进度=" + info.progress);
                             mNumberProgressBar.setVisibility(View.VISIBLE);
                             mTvDownloadSpeed.setVisibility(View.VISIBLE);
                             mTvDownloadScale.setVisibility(View.VISIBLE);
-                        }else if(info.state == DLState.PAUSE){
+                        } else if (info.state == DLState.PAUSE) {
                             mBtnOperate.setText("继续");
                             mNumberProgressBar.setProgress(info.progress);
-                            LogUtils.e("暂停 当前进度="+info.progress);
+                            LogUtils.e("暂停 当前进度=" + info.progress);
                             mNumberProgressBar.setVisibility(View.VISIBLE);
                             mTvDownloadSpeed.setVisibility(View.VISIBLE);
                             mTvDownloadScale.setVisibility(View.VISIBLE);
-                        }else if(info.state == DLState.COMPLETE){
+                        } else if (info.state == DLState.COMPLETE) {
                             mBtnOperate.setText("安装");
                             mNumberProgressBar.setVisibility(View.GONE);
                             mTvDownloadSpeed.setVisibility(View.GONE);
                             mTvDownloadScale.setVisibility(View.GONE);
-                        }else if(info.state == DLState.FAIL){
+                        } else if (info.state == DLState.FAIL) {
                             mBtnOperate.setText("继续");
                             mNumberProgressBar.setProgress(info.progress);
-                            LogUtils.e("失败 当前进度="+info.progress);
+                            LogUtils.e("失败 当前进度=" + info.progress);
                             mNumberProgressBar.setVisibility(View.VISIBLE);
                             mTvDownloadSpeed.setVisibility(View.VISIBLE);
                             mTvDownloadScale.setVisibility(View.VISIBLE);
-                        }else if(Utils.isAppInstalled(mActivity.getApplicationContext(), item.getPackageX())){
+                        } else if (Utils.isAppInstalled(mActivity.getApplicationContext(), item.getPackageX())) {
                             mBtnOperate.setText("启动");
                             mNumberProgressBar.setVisibility(View.GONE);
                             mTvDownloadSpeed.setVisibility(View.GONE);
                             mTvDownloadScale.setVisibility(View.GONE);
                         }
 
-                    }else{
-                        if(Utils.isAppInstalled(mActivity.getApplicationContext(), item.getPackageX())){
+                    } else {
+                        if (Utils.isAppInstalled(mActivity.getApplicationContext(), item.getPackageX())) {
                             mBtnOperate.setText("启动");
                             mNumberProgressBar.setVisibility(View.GONE);
                             mTvDownloadSpeed.setVisibility(View.GONE);
                             mTvDownloadScale.setVisibility(View.GONE);
-                        } else{
+                        } else {
                             mBtnOperate.setText("下载");
                             mNumberProgressBar.setVisibility(View.GONE);
                             mTvDownloadSpeed.setVisibility(View.GONE);
@@ -162,13 +159,13 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
                         }
                     }
 
-                }else{
-                    if(Utils.isAppInstalled(mActivity.getApplicationContext(), item.getPackageX())){
+                } else {
+                    if (Utils.isAppInstalled(mActivity.getApplicationContext(), item.getPackageX())) {
                         mBtnOperate.setText("启动");
                         mNumberProgressBar.setVisibility(View.GONE);
                         mTvDownloadSpeed.setVisibility(View.GONE);
                         mTvDownloadScale.setVisibility(View.GONE);
-                    } else{
+                    } else {
                         mBtnOperate.setText("下载");
                         mNumberProgressBar.setVisibility(View.GONE);
                         mTvDownloadSpeed.setVisibility(View.GONE);
@@ -180,10 +177,10 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
 
                 //显示详情、卸载
                 final View bar = helper.getView(R.id.ll_bottom_bar);
-                if(mIsExpend !=null && !mIsExpend.isEmpty()){
-                    if(mIsExpend.get(helper.getLayoutPosition()) == true){
+                if (mIsExpend != null && !mIsExpend.isEmpty()) {
+                    if (mIsExpend.get(helper.getLayoutPosition()) == true) {
                         bar.setVisibility(View.VISIBLE);
-                    }else{
+                    } else {
                         bar.setVisibility(View.GONE);
                     }
                 }
@@ -203,6 +200,7 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
         GameInfo.DataEntity mItem;
         BaseRcvAdapterHelper mHelper;
         int position;
+
         public OperateButtonClickListener(BaseRcvAdapterHelper helper, GameInfo.DataEntity item, int position) {
             this.mHelper = helper;
             this.mItem = item;
@@ -212,7 +210,7 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
         @Override
         public void onClick(View v) {
             //如果是安装的app,则启动该app
-            if(Utils.isAppInstalled(mActivity.getApplicationContext(), mItem.getPackageX())){
+            if (Utils.isAppInstalled(mActivity.getApplicationContext(), mItem.getPackageX())) {
                 Utils.startThirdApp(mActivity, mItem.getPackageX());
                 return;
             }
@@ -221,20 +219,20 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
 
             //状态为下载完成
             final DLInfo info = MyApplication.getInstance().getDLTask(mItem.getShorturl());
-            LogUtils.e("点击时取出任务="+info);
-            if(info!=null){
-                LogUtils.e("点击按钮时的下载状态="+info.state);
-                if(info.state == DLState.COMPLETE){
+            LogUtils.e("点击时取出任务=" + info);
+            if (info != null) {
+                LogUtils.e("点击按钮时的下载状态=" + info.state);
+                if (info.state == DLState.COMPLETE) {
                     info.file = new File(info.dirPath, info.fileName);
-                    if(Utils.isFileExist(info.file) && info.file.length() == info.totalBytes){
+                    if (Utils.isFileExist(info.file) && info.file.length() == info.totalBytes) {
                         // 安装包存在，则安装应用
-                        LogUtils.e("安装"+info.appName);
+                        LogUtils.e("安装" + info.appName);
                         Utils.installApp(v.getContext(), info.file);
                         return;
-                    }else{
+                    } else {
                         // 安装包不存在，则删除下载记录
                         DLInfoDao dlInfoDao = mDLManager.getDLInfoDao();
-                        if(dlInfoDao!=null){
+                        if (dlInfoDao != null) {
                             try {
                                 dlInfoDao.delete(info);
                             } catch (SQLException e) {
@@ -243,17 +241,17 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
                         }
                         mBtnOperate.setText("下载");
                     }
-                }else if(info.state == DLState.DOWNLOADING){
+                } else if (info.state == DLState.DOWNLOADING) {
                     mDLManager.dlStop(info.baseUrl);
                     mBtnOperate.setText("继续");
-                }else if(info.state == DLState.PAUSE || info.state == DLState.FAIL){
+                } else if (info.state == DLState.PAUSE || info.state == DLState.FAIL) {
                     mDLManager.dlStart(info.baseUrl/*, new DownloadListener(mItem, position)*/);
                     mBtnOperate.setText("暂停");
-                }else if(info.state == DLState.DOWNLOAD){
+                } else if (info.state == DLState.DOWNLOAD) {
                     addDownloadListener(mItem, position);
                     mBtnOperate.setText("暂停");
                 }
-            }else{
+            } else {
                 addDownloadListener(mItem, position);
                 mBtnOperate.setText("暂停");
             }
@@ -263,6 +261,7 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
 
     /**
      * 添加下载回调
+     *
      * @param item
      * @param position
      */
@@ -270,7 +269,6 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
 
         //下载监听
         mDLManager.dlStart(item.getShorturl(), saveDir, null, item.getTopic_cn(), position, null);/*, new DownloadListener(item, position));*/
-
 
 
     }
@@ -475,18 +473,18 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
 
 
     public void initFlag(List<GameInfo.DataEntity> data) {
-        if(data == null || data.size() == 0){
+        if (data == null || data.size() == 0) {
             return;
         }
 
-        if(getAdapter().getItemCount() == 0){
-            for(int i=0;i<data.size();i++){
+        if (getAdapter().getItemCount() == 0) {
+            for (int i = 0; i < data.size(); i++) {
                 mIsExpend.put(i, false);
             }
-        }else{
+        } else {
             int flagCount = mIsExpend.size();
             int dataCount = data.size();
-            for(int j=flagCount; j<flagCount + dataCount; j++){
+            for (int j = flagCount; j < flagCount + dataCount; j++) {
                 mIsExpend.put(j, false);
             }
         }
@@ -494,21 +492,21 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
     }
 
 
-    public QuickRcvAdapter getAdapter(){
+    public QuickRcvAdapter getAdapter() {
         return mQuickRcvAdapter;
     }
 
-    public ConcurrentHashMap<String, DLInfo> getAllDLTasks(){
+    public ConcurrentHashMap<String, DLInfo> getAllDLTasks() {
         return MyApplication.getInstance().getAllTaks();
     }
 
     @Override
     public void onItemClick(View view, int position) {
         View bar = view.findViewById(R.id.ll_bottom_bar);
-        if(bar.getVisibility() == View.VISIBLE){
+        if (bar.getVisibility() == View.VISIBLE) {
             bar.setVisibility(View.GONE);
             mIsExpend.put(position, false);
-        }else{
+        } else {
             bar.setVisibility(View.VISIBLE);
             mIsExpend.put(position, true);
         }
@@ -526,13 +524,12 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
     }
 
 
-    @Subscriber(tag = "onStart")
     public void onStart(DLInfo info) {
         MyApplication.getInstance().updateDLTask(info);
-        LogUtils.e("开始下载状态="+info.state);
-        LogUtils.e("开始下载"+info.appName);
+        LogUtils.e("开始下载状态=" + info.state);
+        LogUtils.e("开始下载" + info.appName);
 
-        if(mActivity != null && !mActivity.isFinishing()){
+        if (mActivity != null && !mActivity.isFinishing()) {
             if (isCurrentListViewItemVisible(info.position)) {
                 BaseRcvAdapterHelper holder = getViewHolder(info.position);
 
@@ -546,12 +543,11 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
         }
     }
 
-    @Subscriber(tag = "onProgress")
     public void onProgress(final DLInfo info) {
         MyApplication.getInstance().updateDLTask(info);
-        if(mActivity != null && !mActivity.isFinishing()){
+        if (mActivity != null && !mActivity.isFinishing()) {
             if (isCurrentListViewItemVisible(info.position)) {
-                LogUtils.e("名字:"+info.appName+"  pos="+info.position);
+                LogUtils.e("名字:" + info.appName + "  pos=" + info.position);
                 BaseRcvAdapterHelper holder = getViewHolder(info.position);
 
                 ProgressBar mNumberProgressBar = holder.getView(R.id.number_progress_bar);
@@ -571,11 +567,10 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
         }
     }
 
-    @Subscriber(tag = "onStop")
     public void onStop(DLInfo info) {
         MyApplication.getInstance().updateDLTask(info);
 
-        if(mActivity != null && !mActivity.isFinishing()){
+        if (mActivity != null && !mActivity.isFinishing()) {
             if (isCurrentListViewItemVisible(info.position)) {
                 BaseRcvAdapterHelper holder = getViewHolder(info.position);
 
@@ -585,10 +580,9 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
         }
     }
 
-    @Subscriber(tag = "onFinish")
     public void onFinish(DLInfo info) {
         MyApplication.getInstance().updateDLTask(info);
-        if(mActivity != null && !mActivity.isFinishing()){
+        if (mActivity != null && !mActivity.isFinishing()) {
             if (isCurrentListViewItemVisible(info.position)) {
                 BaseRcvAdapterHelper holder = getViewHolder(info.position);
 
@@ -607,10 +601,9 @@ public class GameAdapter extends SampleBlock implements BaseRcvQuickAdapter.OnIt
         }
     }
 
-    @Subscriber(tag = "onError")
     public void onError(int status, String error, DLInfo info) {
         MyApplication.getInstance().updateDLTask(info);
-        if(mActivity!=null && !mActivity.isFinishing()){
+        if (mActivity != null && !mActivity.isFinishing()) {
             if (isCurrentListViewItemVisible(info.position)) {
                 BaseRcvAdapterHelper holder = getViewHolder(info.position);
 

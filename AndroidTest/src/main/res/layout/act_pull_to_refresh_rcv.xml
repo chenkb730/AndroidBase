@@ -4,7 +4,7 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent" >
 
-    <com.android.base.widget.pulltorefresh.PullToRefreshRecyclerView
+    <com.android.base.widget.pulltorefresh.extras.recyclerview.PullToRefreshRecyclerView
         android:id="@+id/pull_refresh_recycler_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
