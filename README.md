@@ -1,4 +1,5 @@
-自己整理的项目中常用到开发框架和相关Test例子、开发中遇到的问题总结，持续更新中...
+fork 自 https://github.com/huangwm1984/AndroidBase
+增加自己的整合以及修改
 
 1.BaseApplication、BaseActivity、BaseFragment等基类、activity堆栈式管理类以及全局网络通知
 
@@ -24,10 +25,10 @@
 
 12.Activity 解耦 CommonBlock
 
-13.GooleSamples 对 Android 6.0 Permission 封装 EasyPermissions
+13.GoogleSamples 对 Android 6.0 Permission 封装 EasyPermissions
 
 14.BaseBanner 控件
 
 15.hongyangAndroid 多分辨率适配方案 AndroidAutoLayout
 
-最后感谢 github 上大神的开源框架和开源精神 (●'◡'●)ﾉ♥
+16.RxAndroid
