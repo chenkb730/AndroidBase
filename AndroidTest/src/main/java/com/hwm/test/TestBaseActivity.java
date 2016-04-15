@@ -18,7 +18,7 @@ import butterknife.Bind;
 /**
  * Created by Administrator on 2015/10/8 0008.
  */
-public abstract class TestBaseActivity extends BaseActivity implements View.OnClickListener{
+public abstract class TestBaseActivity extends BaseActivity implements View.OnClickListener {
 
     private String TAG = "TestBaseActivity";
 
@@ -34,7 +34,8 @@ public abstract class TestBaseActivity extends BaseActivity implements View.OnCl
     }
 
     @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         TAG = this.getClass().getSimpleName();
 
         mScrollView = (ScrollView) mContainer.getParent();
@@ -58,40 +59,6 @@ public abstract class TestBaseActivity extends BaseActivity implements View.OnCl
         }
     }
 
-    @Override
-    public void onActivityStarted(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityStopped(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-
-    }
-
-    @Override
-    public void onActivityRestoreInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-
-    }
 
     /**
      * 获取主标题

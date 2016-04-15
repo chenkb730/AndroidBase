@@ -10,31 +10,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.base.lifecycle.FragmentLifecycleCallbacks;
 import com.apkfuns.logutils.LogUtils;
-//import com.squareup.leakcanary.RefWatcher;
 
 import java.util.List;
 
 import butterknife.ButterKnife;
 import pub.devrel.easypermissions.EasyPermissions;
 
+//import com.squareup.leakcanary.RefWatcher;
+
 /**
  * Created by Administrator on 2015/7/28 0028.
  */
-public abstract class BaseFragment extends Fragment implements FragmentLifecycleCallbacks, EasyPermissions.PermissionCallbacks {
+public abstract class BaseFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
 
     @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        onFragmentAttach(this, activity);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        onFragmentCreated(this, savedInstanceState);
     }
 
     @Nullable
@@ -55,7 +53,6 @@ public abstract class BaseFragment extends Fragment implements FragmentLifecycle
         if (getMainContentViewId() != 0) {
             rootView = inflater.inflate(getMainContentViewId(), container, false);
         }
-        onFragmentCreateView(this, inflater, container, savedInstanceState);
         return rootView;
     }
 
@@ -63,37 +60,31 @@ public abstract class BaseFragment extends Fragment implements FragmentLifecycle
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
-        onFragmentViewCreated(this, view, savedInstanceState);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        onFragmentActivityCreated(this, savedInstanceState);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        onFragmentStarted(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        onFragmentResumed(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        onFragmentPaused(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        onFragmentStopped(this);
     }
 
     @Override
@@ -107,19 +98,16 @@ public abstract class BaseFragment extends Fragment implements FragmentLifecycle
         super.onDestroy();
         //RefWatcher refWatcher = BaseApplication.getRefWatcher(getActivity());
         //refWatcher.watch(this);
-        onFragmentDestroyed(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        onFragmentDetach(this);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        onFragmentSaveInstanceState(this, outState);
     }
 
     @Override

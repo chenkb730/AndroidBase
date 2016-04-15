@@ -44,11 +44,13 @@ public class FragmentTabHostActivity extends BaseActivity implements FragmentTab
     }
 
     @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         initToolbar();
         initNavigationDrawerFragment();
         initTabHost();
     }
+
 
     private void initToolbar() {
         mToolbar.setTitle("主体布局-1");
@@ -123,41 +125,7 @@ public class FragmentTabHostActivity extends BaseActivity implements FragmentTab
         }
     }
 
-    @Override
-    public void onActivityStarted(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityStopped(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-
-    }
-
-    @Override
-    public void onActivityRestoreInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-
-    }
-
+    
     @Override
     public void onTabChanged(String tabId) {
         final int size = mTabHost.getTabWidget().getTabCount();

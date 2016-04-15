@@ -28,51 +28,14 @@ public class TestPermissionActivity extends BaseActivity {
         return R.layout.act_permission_main;
     }
 
-    @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
 
-    }
-
-    @Override
-    public void onActivityStarted(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityStopped(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-
-    }
-
-    @Override
-    public void onActivityRestoreInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-
-    }
-
-    @OnClick(R.id.button_camera) void showCamera() {
+    @OnClick(R.id.button_camera)
+    void showCamera() {
         requestCameraPermission();
     }
 
-    @OnClick(R.id.button_gallery) void showGallery() {
+    @OnClick(R.id.button_gallery)
+    void showGallery() {
         requestGalleryPermission();
     }
 

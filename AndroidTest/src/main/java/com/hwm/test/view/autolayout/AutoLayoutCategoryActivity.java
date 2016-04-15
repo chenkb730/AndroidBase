@@ -34,10 +34,12 @@ public class AutoLayoutCategoryActivity extends BaseActivity {
     }
 
     @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setToolBar();
         initAdapter();
     }
+
 
     private void setToolBar() {
         getSupportActionBar().setTitle("测试多层嵌套的AutoLayout适配-3");
@@ -46,24 +48,20 @@ public class AutoLayoutCategoryActivity extends BaseActivity {
 
 
     private void initAdapter() {
-        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager())
-        {
+        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
-            public Fragment getItem(int i)
-            {
+            public Fragment getItem(int i) {
                 return new SimpleFragment();
             }
 
             @Override
-            public CharSequence getPageTitle(int position)
-            {
+            public CharSequence getPageTitle(int position) {
 
                 return mTabTitles[position];
             }
 
             @Override
-            public int getCount()
-            {
+            public int getCount() {
                 return mTabTitles.length;
             }
         });
@@ -72,40 +70,6 @@ public class AutoLayoutCategoryActivity extends BaseActivity {
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
-    @Override
-    public void onActivityStarted(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityStopped(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-
-    }
-
-    @Override
-    public void onActivityRestoreInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

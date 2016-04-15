@@ -57,7 +57,9 @@ public class HeaderOrFooterActivity extends BaseActivity implements ResponseCall
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     private float mHeaderHeight;
-    /** 是否加载数据标志 **/
+    /**
+     * 是否加载数据标志
+     **/
     private boolean isLoadingData = false;
 
     HeaderBlock mHeaderBlock;
@@ -73,7 +75,8 @@ public class HeaderOrFooterActivity extends BaseActivity implements ResponseCall
     }
 
     @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setLoadingAndRetry();
         setBlock();
         setSwipeRefreshLayout();
@@ -82,18 +85,19 @@ public class HeaderOrFooterActivity extends BaseActivity implements ResponseCall
         mDataManager.loadNewData(this);
     }
 
+
     private void setLoadingAndRetry() {
-        mLoadingAndRetryManager = LoadingAndRetryManager.generate(mContentView, new OnLoadingAndRetryListener(){
+        mLoadingAndRetryManager = LoadingAndRetryManager.generate(mContentView, new OnLoadingAndRetryListener() {
             @Override
-            public void setRetryEvent(View retryView)
-            {
+            public void setRetryEvent(View retryView) {
                 HeaderOrFooterActivity.this.setRetryEvent(retryView);
             }
         });
         mLoadingAndRetryManager.showLoading();
     }
 
-    @OnClick(R.id.float_imageButton) void onClickFloatIv(){
+    @OnClick(R.id.float_imageButton)
+    void onClickFloatIv() {
         mWaterFallRcv.smoothScrollToPosition(0);
     }
 
@@ -155,14 +159,14 @@ public class HeaderOrFooterActivity extends BaseActivity implements ResponseCall
         //Solve IndexOutOfBoundsException exception
         //解决上下拉刷新时还可以进行滑动的问题
         mWaterFallRcv.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (isLoadingData) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (isLoadingData) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         });
 
         /**
@@ -264,43 +268,7 @@ public class HeaderOrFooterActivity extends BaseActivity implements ResponseCall
     }
 
 
-    @Override
-    public void onActivityStarted(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityStopped(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-
-    }
-
-    @Override
-    public void onActivityRestoreInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-        Glide.get(activity).clearMemory();
-    }
-
-    public void setRetryEvent(View retryView)
-    {
+    public void setRetryEvent(View retryView) {
         View view = retryView.findViewById(R.id.id_btn_retry);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -318,7 +286,7 @@ public class HeaderOrFooterActivity extends BaseActivity implements ResponseCall
         }
         isLoadingData = false;
         mFooterBlock.getFooterView().setVisibility(View.GONE);
-        mCartoonAdapter.getAdapter().addAll((List<TestDataBean.DataEntity.ObjectListEntity>)object);
+        mCartoonAdapter.getAdapter().addAll((List<TestDataBean.DataEntity.ObjectListEntity>) object);
         mLoadingAndRetryManager.showContent();
     }
 
@@ -326,9 +294,9 @@ public class HeaderOrFooterActivity extends BaseActivity implements ResponseCall
     public void onError(Call call, Exception e) {
         mFooterBlock.getFooterView().setVisibility(View.GONE);
         int itemCount = mCartoonAdapter.getAdapter().getItemCount();
-        if(itemCount - 2 <= 0){
+        if (itemCount - 2 <= 0) {
             mLoadingAndRetryManager.showEmpty();
-        }else{
+        } else {
             mLoadingAndRetryManager.showContent();
         }
     }

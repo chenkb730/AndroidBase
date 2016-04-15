@@ -22,12 +22,9 @@ public class LeakcanaryActivity extends BaseActivity {
         return R.layout.act_leakcanary_main;
     }
 
-    @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
 
-    }
-
-    @OnClick(R.id.async_task) void startAsync() {
+    @OnClick(R.id.async_task)
+    void startAsync() {
         for (int i = 0; i < mObjs.length; i++) {
             mObjs[i] = new Object();
         }
@@ -35,43 +32,10 @@ public class LeakcanaryActivity extends BaseActivity {
         /**
          * 设置为横屏
          */
-        if(getRequestedOrientation()!=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
     }
 
-    @Override
-    public void onActivityStarted(Activity activity) {
 
-    }
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityStopped(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-
-    }
-
-    @Override
-    public void onActivityRestoreInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-
-    }
 }

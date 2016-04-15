@@ -90,12 +90,11 @@ public class MainActivity extends TestBaseActivity {
 
 
     @Override
-    public void onActivityDestroyed(Activity activity) {
+    protected void onDestroy() {
         stopDownloadingTask();
-        super.onActivityDestroyed(activity);
-
+        super.onDestroy();
     }
-
+    
     public void stopDownloadingTask() {
         DLManager dlManager = DLManager.getInstance(mApplicationContext);
         DLInfoDao dlInfoDao = dlManager.getDLInfoDao();

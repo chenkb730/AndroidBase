@@ -2,6 +2,7 @@ package com.hwm.test.view.tabhost.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,26 +38,10 @@ public class NavigationDrawerFragment extends BaseFragment {
     }
 
     @Override
-    public void onFragmentAttach(Fragment fragment, Activity activity) {
-
-    }
-
-    @Override
-    public void onFragmentCreated(Fragment fragment, Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onFragmentCreateView(Fragment fragment, LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onFragmentViewCreated(Fragment fragment, View view, Bundle savedInstanceState) {
-
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initMenu();
         initAdapter();
-
     }
 
 
@@ -100,48 +85,8 @@ public class NavigationDrawerFragment extends BaseFragment {
         mMenu.setAdapter(mAdapter);
     }
 
-    @Override
-    public void onFragmentActivityCreated(Fragment fragment, Bundle savedInstanceState) {
 
-    }
-
-    @Override
-    public void onFragmentStarted(Fragment fragment) {
-
-    }
-
-    @Override
-    public void onFragmentResumed(Fragment fragment) {
-
-    }
-
-    @Override
-    public void onFragmentPaused(Fragment fragment) {
-
-    }
-
-    @Override
-    public void onFragmentStopped(Fragment fragment) {
-
-    }
-
-    @Override
-    public void onFragmentDestroyed(Fragment fragment) {
-
-    }
-
-    @Override
-    public void onFragmentDetach(Fragment fragment) {
-
-    }
-
-    @Override
-    public void onFragmentSaveInstanceState(Fragment fragment, Bundle outState) {
-
-    }
-
-
-    public class MenuBean{
+    public class MenuBean {
         public int resourceId;
         public String menuName;
     }

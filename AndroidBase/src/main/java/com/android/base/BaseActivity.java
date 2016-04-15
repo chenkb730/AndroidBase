@@ -10,13 +10,11 @@ import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
+import com.android.base.block.CommonBlockManager;
 import com.android.base.common.Log;
-import com.android.base.lifecycle.ActivityLifecycleCallbacksCompat;
 import com.android.base.netstate.NetWorkUtil;
 import com.android.base.netstate.NetworkStateReceiver;
-import com.android.base.block.CommonBlockManager;
 import com.apkfuns.logutils.LogUtils;
-import com.zhy.autolayout.AutoLayoutActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -25,9 +23,9 @@ import butterknife.ButterKnife;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /**
- * Created by huangwm on 2015/7/28 0028.
+ * BaseActivity
  */
-public abstract class BaseActivity extends AutoLayoutActivity implements ActivityLifecycleCallbacksCompat, EasyPermissions.PermissionCallbacks {
+public abstract class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     public Context mApplicationContext;
 
@@ -47,13 +45,11 @@ public abstract class BaseActivity extends AutoLayoutActivity implements Activit
         NetworkStateReceiver.registerNetworkStateReceiver(this);
         mHandler = new MyHandler(this);
         mCommonBlockManager = getCommonBlockManager();
-        onActivityCreated(this, savedInstanceState);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        onActivityStarted(this);
         if (mCommonBlockManager != null) {
             mCommonBlockManager.onStart();
         }
@@ -62,7 +58,6 @@ public abstract class BaseActivity extends AutoLayoutActivity implements Activit
     @Override
     protected void onResume() {
         super.onResume();
-        onActivityResumed(this);
         if (mCommonBlockManager != null) {
             mCommonBlockManager.onResume();
         }
@@ -71,7 +66,6 @@ public abstract class BaseActivity extends AutoLayoutActivity implements Activit
     @Override
     protected void onPause() {
         super.onPause();
-        onActivityPaused(this);
         if (mCommonBlockManager != null) {
             mCommonBlockManager.onPause();
         }
@@ -80,7 +74,6 @@ public abstract class BaseActivity extends AutoLayoutActivity implements Activit
     @Override
     protected void onStop() {
         super.onStop();
-        onActivityStopped(this);
         if (mCommonBlockManager != null) {
             mCommonBlockManager.onStop();
         }
@@ -89,7 +82,6 @@ public abstract class BaseActivity extends AutoLayoutActivity implements Activit
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-        onActivitySaveInstanceState(outState, outPersistentState);
         if (mCommonBlockManager != null) {
             mCommonBlockManager.onSaveInstanceState(outState, outPersistentState);
         }
@@ -98,7 +90,6 @@ public abstract class BaseActivity extends AutoLayoutActivity implements Activit
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        onActivityRestoreInstanceState(savedInstanceState);
         if (mCommonBlockManager != null) {
             mCommonBlockManager.onRestoreInstanceState(savedInstanceState);
         }
@@ -117,7 +108,6 @@ public abstract class BaseActivity extends AutoLayoutActivity implements Activit
     protected void onDestroy() {
         if (mHandler != null) mHandler.removeCallbacksAndMessages(null);
         super.onDestroy();
-        onActivityDestroyed(this);
         if (mCommonBlockManager != null) {
             mCommonBlockManager.onDestroy();
         }
@@ -230,38 +220,5 @@ public abstract class BaseActivity extends AutoLayoutActivity implements Activit
 
     protected abstract int getMainContentViewId();
 
-    @Override
-    public void onActivityStarted(Activity activity) {
 
-    }
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityStopped(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-
-    }
-
-    @Override
-    public void onActivityRestoreInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-
-    }
 }

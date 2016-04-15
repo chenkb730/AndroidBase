@@ -35,55 +35,17 @@ public class TestHttpActivity extends BaseActivity {
     }
 
     @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        setToolBar();
-        TestHttpReq.request1(mHandler);
-        TestHttpReq.request2(mHandler);
-        TestHttpReq.request3(mHandler);
-        TestHttpReq.request4(mHandler);
-        TestHttpReq.request5(mHandler);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
+
 
     private void setToolBar() {
         getSupportActionBar().setTitle("OKhttp封装测试");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    public void onActivityStarted(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityStopped(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-
-    }
-
-    @Override
-    public void onActivityRestoreInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-
-    }
-
+   
     @Override
     public void onConnect(NetWorkUtil.netType type) {
         super.onConnect(type);

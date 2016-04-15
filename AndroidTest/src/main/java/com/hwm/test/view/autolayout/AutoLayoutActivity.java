@@ -11,56 +11,24 @@ import com.hwm.test.R;
 /**
  * Created by Administrator on 2015/11/25 0025.
  */
-public class AutoLayoutActivity extends BaseActivity{
+public class AutoLayoutActivity extends BaseActivity {
     @Override
     protected int getMainContentViewId() {
         return R.layout.act_auto_layout;
     }
 
     @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setToolBar();
     }
+
 
     private void setToolBar() {
         getSupportActionBar().setTitle("测试多层嵌套的AutoLayout适配-1");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    public void onActivityStarted(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityResumed(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityPaused(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityStopped(Activity activity) {
-
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-
-    }
-
-    @Override
-    public void onActivityRestoreInstanceState(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(Activity activity) {
-
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

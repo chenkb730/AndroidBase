@@ -37,11 +37,13 @@ public class PullToRefreshRecyclerActivity extends BaseActivity {
     }
 
     @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setData();
         setBlock();
         setRecyclerView();
     }
+
 
     private void setData() {
         for (int i = 0; i < 25; i++) {
